@@ -9,6 +9,7 @@ FROM ubuntu:18.04
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -yq curl apt-transport-https gnupg libcap2-bin && \
+    useradd -g 0 -u 100001 mssql && \
     # Get official Microsoft repository configuration
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/ubuntu/18.04/mssql-server-2019.list | tee /etc/apt/sources.list.d/mssql-server.list && \
@@ -20,7 +21,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     rm -rf /var/lib/apt/lists && \
     # setup for running as mssql
     mkdir -p -m 770 /var/opt/mssql && \
-    chgrp -R 999 /var/opt/mssql && \
+    chgrp -R 0 /var/opt/mssql && \
     # Grant sql the permissions to connect to ports <1024 as a non-root user
     /sbin/setcap 'cap_net_bind_service+ep' /opt/mssql/bin/sqlservr && \
     # Allow dumps from the non-root process
@@ -37,5 +38,4 @@ COPY permissions_check.sh /opt/mssql/bin/
 # Run SQL Server process
 USER mssql
 ENTRYPOINT ["/opt/mssql/bin/permissions_check.sh"]
-#CMD ["/opt/mssql/bin/sqlservr"]
-CMD ["/bin/bash"]
+CMD ["/opt/mssql/bin/sqlservr"]
