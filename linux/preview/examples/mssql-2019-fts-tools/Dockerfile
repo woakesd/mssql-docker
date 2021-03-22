@@ -13,9 +13,10 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     # Get official Microsoft repository configuration
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     curl https://packages.microsoft.com/config/ubuntu/18.04/mssql-server-2019.list | tee /etc/apt/sources.list.d/mssql-server.list && \
+    curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list | tee /etc/apt/sources.list.d/mssql-prod.list && \
     apt-get update && \
     # Install SQL Server from apt
-    ACCEPT_EULA=Y apt-get install -y mssql-server-fts && \
+    ACCEPT_EULA=Y apt-get install -y mssql-server-fts mssql-tools && \
     # Cleanup the Dockerfile
     apt-get clean && \
     rm -rf /var/lib/apt/lists && \
