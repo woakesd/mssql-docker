@@ -37,6 +37,9 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 
 COPY permissions_check.sh /opt/mssql/bin/
 
+# expose SQL Server port
+EXPOSE 1433
+
 # Run SQL Server process
 USER mssql
 ENTRYPOINT ["/opt/mssql/bin/permissions_check.sh"]
