@@ -3,7 +3,7 @@
 # GitRepo: https://github.com/woakesd/mssql-docker
 
 # Base OS layer: Latest Ubuntu LTS
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # Install prerequistes since it is needed to get repo config for SQL server
 RUN export DEBIAN_FRONTEND=noninteractive && \
@@ -12,8 +12,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     useradd -g 0 -u 10001 mssql && \
     # Get official Microsoft repository configuration
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/config/ubuntu/18.04/mssql-server-2019.list | tee /etc/apt/sources.list.d/mssql-server.list && \
-    curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list | tee /etc/apt/sources.list.d/mssql-prod.list && \
+    curl https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list | tee /etc/apt/sources.list.d/mssql-server.list && \
+    curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | tee /etc/apt/sources.list.d/mssql-prod.list && \
     apt-get update && \
     # Install SQL Server from apt
     ACCEPT_EULA=Y apt-get install -y mssql-server-fts mssql-tools && \
